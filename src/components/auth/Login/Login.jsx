@@ -5,12 +5,14 @@ import logo2 from "../../../assets/logo2.svg";
 import OAuth from "../OAuth/OAuth";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import logmage from "../../../assets/login-img.svg";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,18 +31,19 @@ const Login = () => {
 
       const data = await response.json();
 
-      // Store only the token part without the 'Bearer' prefix
-      const tokenPart = data.token.split(" ")[1];
-      localStorage.setItem("token", tokenPart);
-
-      console.log("token", tokenPart);
-
       if (response.ok) {
         console.log("Login successful", data);
         setNotification({ type: "success", message: "Login successful!" });
+
+        // Store only the token part without the 'Bearer' prefix
+        const tokenPart = data.token.split(" ")[1];
+        localStorage.setItem("token", tokenPart);
+
+        // Call the login function from AuthContext
+        login(tokenPart);
+
         navigate("/home");
       } else {
-        // Handle login error
         console.error("Login failed", data);
         setNotification({
           type: "error",

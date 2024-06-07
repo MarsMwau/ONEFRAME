@@ -3,15 +3,20 @@ import React, { createContext, useState, useEffect } from "react";
 export const AlbumsAndPhotosContext = createContext();
 
 const decodeToken = (token) => {
-  const base64Url = token.split(".")[1];
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split("")
-      .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-      .join("")
-  );
-  return JSON.parse(jsonPayload);
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    return null;
+  }
 };
 
 export const AlbumsAndPhotosProvider = ({ children }) => {
@@ -26,10 +31,16 @@ export const AlbumsAndPhotosProvider = ({ children }) => {
         return;
       }
 
-      try {
-        const decodedToken = decodeToken(token);
-        const userId = decodedToken.userId;
+      const decodedToken = decodeToken(token);
+      if (!decodedToken) {
+        console.error("Invalid token");
+        return;
+      }
 
+      const userId = decodedToken.userId;
+      console.log("Decoded User ID:", userId);
+
+      try {
         const responseAlbums = await fetch(`https://oneframe-api.onrender.com/api/albums?userId=${userId}`, {
           headers: {
             "Content-Type": "application/json",
@@ -38,10 +49,11 @@ export const AlbumsAndPhotosProvider = ({ children }) => {
         });
 
         if (!responseAlbums.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error("Network response was not ok for albums");
         }
 
         const dataAlbums = await responseAlbums.json();
+        console.log("Fetched Albums:", dataAlbums);
         setAlbums(dataAlbums);
 
         const responsePhotos = await fetch(`https://oneframe-api.onrender.com/api/photos?userId=${userId}`, {
@@ -52,10 +64,11 @@ export const AlbumsAndPhotosProvider = ({ children }) => {
         });
 
         if (!responsePhotos.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error("Network response was not ok for photos");
         }
 
         const dataPhotos = await responsePhotos.json();
+        console.log("Fetched Photos:", dataPhotos);
         setPhotos(dataPhotos);
       } catch (error) {
         console.error("Error fetching albums and photos:", error);

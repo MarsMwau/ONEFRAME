@@ -127,7 +127,7 @@ const GalleryPhoto = () => {
           <h3 className="img-title">{photo.title}</h3>
         </>
       )}
-      <ArrowBackIcon onClick={() => navigate("/")} className="close-icon" />
+      <ArrowBackIcon onClick={() => navigate("/home")} className="close-icon" />
       <ArrowBackIosIcon onClick={handlePrev} className="prev-icon" />
       <ArrowForwardIosIcon onClick={handleNext} className="next-icon" />
     </div>
