@@ -11,6 +11,7 @@ import AlbumPage from "./Pages/Albums/AlbumPage/AlbumPage";
 import CreateAlbum from "./Pages/New/CreateAlbum";
 import UploadPhotos from "./Pages/New/UploadPhotos";
 import Search from "./Pages/Search/Search";
+import Profile from "./Pages/Profile/Profile";
 
 const AppRoutes = () => {
   return (
@@ -79,6 +80,14 @@ const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Search />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <Profile />
           </PrivateRoute>
         }
       />
