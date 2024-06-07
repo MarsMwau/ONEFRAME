@@ -1,70 +1,128 @@
-# Getting Started with Create React App
+# OneFrame Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
 
-## Available Scripts
+- [Introduction](#introduction)
+- [Features](#features)
+- [Screens and Pages](#screens-and-pages)
+  - [Landing Page](#landing-page)
+  - [Authentication Page](#authentication-page)
+  - [Logged-in Pages](#logged-in-pages)
+    - [Home Page](#home-page)
+    - [User Page](#user-page)
+    - [Album Page](#album-page)
+    - [Photo Page](#photo-page)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-In the project directory, you can run:
+## Introduction
 
-### `npm start`
+OneFrame is a web application designed to manage and display user albums and photos. The application allows users to log in using popular authentication providers and view, edit, and manage their albums and photos.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Landing Page:** Provides a brief explanation of the application's purpose.
+- **User Authentication:** Supports Google authentication providers.
+- **User Management:** Lists all users and their albums.
+- **Album Management:** Displays and manages albums and photos.
+- **Photo Management:** Allows users to view and edit photo details.
 
-### `npm test`
+## Screens and Pages
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Landing Page
 
-### `npm run build`
+Accessible to all visitors, the landing page offers a brief explanation of what OneFrame does and how it can be beneficial for managing user albums and photos.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Authentication Page
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The authentication page allows users to log in using Google, Facebook, or GitHub. Authentication sessions are maintained within the application. You can choose to combine this page with the landing page.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Logged-in Pages
 
-### `npm run eject`
+#### Home Page
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Lists all users.
+- Displays the number of albums each user has.
+- Runs GET requests to fetch users and albums data.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### User Page
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Shows detailed information about a selected user.
+- Lists the albums of the selected user.
+- Runs GET requests to fetch the selected user's data and their albums.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Album Page
 
-## Learn More
+- Displays information about a selected album.
+- Lists photos in the selected album.
+- Runs GET requests to fetch the selected album and its photos.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Photo Page
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Displays a single photo.
+- Allows users to edit the title of the photo.
+  - Sends a PATCH/PUT request to update the photo's title.
+- Runs a GET request to fetch the photo details.
 
-### Code Splitting
+## Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+To get started with OneFrame, follow these steps:
 
-### Analyzing the Bundle Size
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/MarsMwau/ONEFRAME
+   cd oneframe
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
-### Making a Progressive Web App
+3. Set up environment variables for your authentication providers.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+4. Start the development server:
+   ```bash
+   npm start
+   ```
 
-### Advanced Configuration
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+After installing and starting the development server, you can access the application in your web browser at `http://localhost:3000`.
 
-### Deployment
+- Visit the landing page to learn about the application.
+- Log in using your preferred authentication provider.
+- Explore the users, albums, and photos by navigating through the different pages.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Technologies Used
 
-### `npm run build` fails to minify
+- **Frontend:** React, Material-UI
+- **Backend:** Node.js, Express
+- **Database:** MongoDB
+- **Authentication:** Google
+- **Other:** bcrypt, JWT
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contributing
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Commit your changes and push them to your fork.
+4. Submit a pull request with a detailed description of your changes.
+
+## License
+
+This project is licensed under the MIT License.
+
+## Contact
+
+For any questions or inquiries, please contact [marthamumbua16@gmail.com](mailto:marthamumbua16@gmail.com).
+
+---
+
+Thank you for using OneFrame! We hope it helps you manage your albums and photos effectively.
