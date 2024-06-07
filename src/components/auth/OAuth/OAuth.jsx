@@ -2,9 +2,11 @@ import React from "react";
 import "./OAuth.css";
 import { signInWithGoogle } from "../../../firebase";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const OAuth = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleGoogleClick = async () => {
     try {
@@ -17,7 +19,6 @@ const OAuth = () => {
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify({ idToken }),
         }
       );
@@ -27,6 +28,10 @@ const OAuth = () => {
       if (response.ok) {
         const tokenPart = data.token.split(" ")[1];
         localStorage.setItem("token", tokenPart);
+
+        // Call the login function from AuthContext
+        login(tokenPart);
+
         navigate("/home");
       } else {
         console.error("Google login failed", data);
