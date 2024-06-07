@@ -8,6 +8,8 @@ import Home from "./Pages/Home/Home";
 import GalleryPhoto from "./Pages/Home/GalleryPhoto/GalleryPhoto";
 import AlbumList from "./Pages/Albums/AlbumList";
 import AlbumPage from "./Pages/Albums/AlbumPage/AlbumPage";
+import CreateAlbum from "./Pages/New/CreateAlbum";
+import UploadPhotos from "./Pages/New/UploadPhotos";
 
 const AppRoutes = () => {
   return (
@@ -20,6 +22,8 @@ const AppRoutes = () => {
       <Route path="/albums" element={<PrivateRoute><AlbumList /></PrivateRoute>} />
       <Route path="/album/:id" element={<PrivateRoute><AlbumPage /></PrivateRoute>} />
       <Route path="/album/:id/:photoId" element={<PrivateRoute><AlbumPage /></PrivateRoute>} />
+      <Route path="/create-album" element={<PrivateRoute><CreateAlbum /></PrivateRoute>} />
+      <Route path="/upload-photos/:albumId" element={<PrivateRoute><UploadPhotos /></PrivateRoute>} />
     </Routes>
   );
 };
