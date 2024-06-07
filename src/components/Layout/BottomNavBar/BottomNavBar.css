@@ -1,0 +1,150 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  z-index: 999;
+  transition: transform 0.3s ease;
+}
+
+.bottom-nav.hide {
+  transform: translateY(100%);
+}
+
+.bottom-container {
+  width: 100%;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.MuiBottomNavigation-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #5d4aa3;
+  width: 100%;
+  height: auto;
+  min-height: 65px;
+  gap: 3.5rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.MuiBottomNavigationAction-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MuiBottomNavigationAction-label {
+  font-weight: 600;
+  font-family: "Red Hat Display";
+  transition: font-size 0.3s ease;
+}
+
+button.MuiBottomNavigationAction-root {
+  color: var(--text-color);
+  background-color: aliceblue;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: none;
+  max-width: 65px;
+  min-width: 60px;
+  height: 60px;
+  padding: 0.1em;
+  overflow: hidden;
+}
+
+.MuiBottomNavigationAction-root .MuiSvgIcon-root {
+  border-radius: 50%;
+  padding: 0.1rem;
+  font-size: 1.8em;
+}
+
+.Mui-selected {
+  transform: translateY(-0.35rem);
+  font-weight: 700;
+  font-size: 1.4em;
+  gap: 1px;
+}
+
+.MuiBottomNavigationAction-root:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  transform: translateY(-0.15rem);
+  font-weight: 700;
+  font-size: 1.4em;
+}
+
+.NewButton {
+  background-color: #000000 !important;
+  color: rgb(255, 255, 255) !important;
+}
+
+@media (max-width: 660px) {
+  .MuiBottomNavigation-root {
+    gap: 2rem;
+  }
+
+  .MuiBottomNavigationAction-root .MuiSvgIcon-root {
+    font-size: 1.8em;
+  }
+
+  .MuiBottomNavigationAction-label {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 490px) {
+  .MuiBottomNavigation-root {
+    width: 100%;
+    height: auto;
+    min-height: 65px;
+    gap: 1rem;
+  }
+
+  button.MuiBottomNavigationAction-root {
+    max-width: 63px;
+    min-width: 60px;
+    height: 63px;
+    padding: 0.1em;
+  }
+
+  .MuiBottomNavigationAction-root .MuiSvgIcon-root {
+    font-size: 1.5em;
+  }
+
+  .MuiBottomNavigationAction-label {
+    font-size: 0.5em;
+  }
+}
+
+@media (max-width: 400px) {
+  .bottom-nav {
+    bottom: 0;
+  }
+
+  .MuiBottomNavigation-root {
+    width: 100%;
+    height: auto;
+    min-height: 60px;
+    gap: 0.5rem;
+  }
+
+  button.MuiBottomNavigationAction-root {
+    max-width: 60px;
+    min-width: 58px;
+    height: 58px;
+    padding: 0.1em;
+  }
+
+  .MuiBottomNavigationAction-root .MuiSvgIcon-root {
+    font-size: 1.3em;
+  }
+
+  .MuiBottomNavigationAction-label {
+    font-size: 0.1em;
+    font-weight: 400;
+  }
+}

@@ -1,23 +1,30 @@
-import logo from './logo.svg';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import './App.css';
+import TopNavBar from './components/Layout/TopNavBar/TopNavBar';
+import BottomNavBar from './components/Layout/BottomNavBar/BottomNavBar';
+import AppRoutes from './Routes';
+import { AuthProvider } from './components/context/AuthContext';
+import { AlbumsAndPhotosProvider } from './Pages/shared/AlbumsAndPhotosContext';
 
 function App() {
+  const location = useLocation();
+
+  const hideNavBarRoutes = ["/", "/login", "/signup"];
+  const hideTopNavBarRoutes = ["/profile"];
+
+  const hideBottomNavBars = hideNavBarRoutes.includes(location.pathname);
+  const hideTopNavBar = hideTopNavBarRoutes.includes(location.pathname) || hideNavBarRoutes.includes(location.pathname);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AuthProvider>
+        <AlbumsAndPhotosProvider>
+          {!hideTopNavBar && <TopNavBar />}
+          <AppRoutes />
+          {!hideBottomNavBars && <BottomNavBar />}
+        </AlbumsAndPhotosProvider>
+      </AuthProvider>
     </div>
   );
 }
