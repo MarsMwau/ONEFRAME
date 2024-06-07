@@ -5,6 +5,7 @@ import TopNavBar from './components/Layout/TopNavBar/TopNavBar';
 import BottomNavBar from './components/Layout/BottomNavBar/BottomNavBar';
 import AppRoutes from './Routes';
 import { AuthProvider } from './components/context/AuthContext';
+import { AlbumsAndPhotosProvider } from './Pages/shared/AlbumsAndPhotosContext';
 
 function App() {
   const location = useLocation();
@@ -18,9 +19,11 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
+        <AlbumsAndPhotosProvider>
           {!hideTopNavBar && <TopNavBar />}
           <AppRoutes />
           {!hideBottomNavBars && <BottomNavBar />}
+        </AlbumsAndPhotosProvider>
       </AuthProvider>
     </div>
   );
