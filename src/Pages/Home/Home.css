@@ -1,0 +1,94 @@
+.gallery-content {
+  margin: 0 auto;
+  width: 90vw;
+}
+
+.gallery-title {
+  font-size: 1.5em;
+  text-align: start;
+  color: rgb(0, 0, 0);
+  margin: 1.2rem 0;
+  font-family: "Oleo Script", system-ui;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+  margin-bottom: 5rem;
+}
+
+.no-photos-message {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.gallery-item {
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 8, 72, 0.699);
+}
+
+.gallery-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 8, 72, 0.699);
+  transform: scale(1.05);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.g-title {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  color: white;
+  font-weight: 900;
+  background-color: rgba(0, 0, 0, 0.112);
+  padding: 4px 8px;
+  margin: 0;
+  font-size: 1em;
+  display: none;
+}
+
+.gallery-item:hover .g-title {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .gallery-title {
+    font-size: 1.2em;
+    margin: 1rem 0;
+  }
+
+  .g-title {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
+  .gallery-title {
+    font-size: 1em;
+    margin: 1rem 0;
+  }
+
+  .g-title {
+    font-size: 0.8em;
+    left: 4px;
+  }
+}
