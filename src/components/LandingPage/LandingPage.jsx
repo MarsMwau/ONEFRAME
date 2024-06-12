@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import album from "../../assets/album.svg";
 import "./LandingPage.css";
-import OAuth from "../auth/OAuth/OAuth";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -34,7 +33,6 @@ const LandingPage = () => {
                 Log In
               </button>
             </div>
-            <OAuth />
           </div>
         </div>
         <div className="right-container">
