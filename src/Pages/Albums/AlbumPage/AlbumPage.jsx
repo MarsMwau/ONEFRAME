@@ -17,7 +17,7 @@ const decodeToken = (token) => {
 };
 
 const AlbumPage = () => {
-  const { id, photoId } = useParams(); // Get photoId from URL params
+  const { id, photoId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const [album, setAlbum] = useState(null);
@@ -62,7 +62,11 @@ const AlbumPage = () => {
       }
     };
 
-    fetchAlbum();
+    if (id) {
+      fetchAlbum();
+    } else {
+      console.error("Album ID is undefined");
+    }
   }, [id]);
 
   useEffect(() => {
@@ -77,6 +81,45 @@ const AlbumPage = () => {
   const handleClosePhotoView = () => {
     setSelectedPhotoId(null);
     navigate(`/album/${id}`);
+  };
+
+  const handleDeletePhoto = async (photoId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Token not found");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://oneframe-api.onrender.com/api/photos/${photoId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Response status:", response.status);
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          console.error("Unauthorized: Token might be invalid or expired");
+        }
+        throw new Error("Network response was not ok");
+      }
+
+      setAlbum((prevAlbum) => ({
+        ...prevAlbum,
+        photos: prevAlbum.photos.filter((photo) => photo._id !== photoId),
+      }));
+      setSelectedPhotoId(null);
+      navigate(`/album/${id}`);
+    } catch (error) {
+      console.error("Error deleting photo:", error);
+    }
   };
 
   const selectedPhoto = album?.photos.find(
@@ -111,6 +154,7 @@ const AlbumPage = () => {
           setSelectedPhoto={setSelectedPhotoId}
           onClose={handleClosePhotoView}
           photos={album.photos}
+          onDelete={() => handleDeletePhoto(selectedPhoto._id)}
         />
       )}
     </div>
