@@ -1,0 +1,11 @@
+{
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "indentation": 2,
+      "color-no-invalid-hex": true,
+      "block-no-empty": true,
+      "max-nesting-depth": 3,
+      "no-duplicate-selectors": true
+    }
+  }
+  
