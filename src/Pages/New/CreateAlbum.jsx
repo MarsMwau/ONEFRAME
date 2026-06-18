@@ -43,7 +43,7 @@ const CreateAlbum = () => {
         console.log("Decoded Token:", decodedToken);
 
         const response = await fetch(
-          "https://oneframe-api.onrender.com/api/albums",
+          "http://localhost:8080/api/albums",
           {
             method: "POST",
             headers: {

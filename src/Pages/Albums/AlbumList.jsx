@@ -74,7 +74,7 @@ const AlbumList = () => {
 
     try {
       const response = await fetch(
-        `https://oneframe-api.onrender.com/api/albums/${selectedAlbumId}`,
+        `http://localhost:8080/api/albums/${selectedAlbumId}`,
         {
           method: "PUT",
           headers: {
@@ -125,9 +125,9 @@ const AlbumList = () => {
         const formData = new FormData();
         formData.append("title", photoTitle);
         formData.append("albumId", selectedAlbumId);
-        formData.append("file", photoFile);
+        formData.append("image", photoFile);
 
-        response = await fetch("https://oneframe-api.onrender.com/api/photos", {
+        response = await fetch("http://localhost:8080/api/photos", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -142,7 +142,7 @@ const AlbumList = () => {
           albumId: selectedAlbumId,
         };
 
-        response = await fetch("https://oneframe-api.onrender.com/api/photos", {
+        response = await fetch("http://localhost:8080/api/photos", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -192,7 +192,7 @@ const AlbumList = () => {
 
     try {
       const response = await fetch(
-        `https://oneframe-api.onrender.com/api/albums/${selectedAlbumId}`,
+        `http://localhost:8080/api/albums/${selectedAlbumId}`,
         {
           method: "DELETE",
           headers: {

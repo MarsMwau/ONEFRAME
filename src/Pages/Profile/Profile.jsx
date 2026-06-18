@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, Tabs, Tab, Button } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { AlbumsAndPhotosContext } from "../shared/AlbumsAndPhotosContext";
+// 1. Import Firebase Auth methods
+import { getAuth, signOut } from "firebase/auth"; 
+// 2. Import your AuthContext to update global state (optional but recommended)
+import { useAuth } from "../../components/context/AuthContext"; 
 import "./Profile.css";
 
 const decodeToken = (token) => {
@@ -21,6 +25,9 @@ const Profile = () => {
   const [tabValue, setTabValue] = useState("photos");
   const [user, setUser] = useState(null);
   const { albums, photos } = useContext(AlbumsAndPhotosContext);
+  
+  // 3. Get the logout function from your context if you have one
+  const { logout: contextLogout } = useAuth(); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,7 +43,7 @@ const Profile = () => {
         console.log("Decoded Token:", decodedToken);
 
         const response = await fetch(
-          "https://oneframe-api.onrender.com/api/users/me",
+          "http://localhost:8080/api/users/me",
           {
             headers: {
               "Content-Type": "application/json",
@@ -69,9 +76,24 @@ const Profile = () => {
     setTabValue(newValue);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
+  // --- THE FIXED LOGOUT FUNCTION ---
+  const handleLogout = async () => {
+    try {
+        // A. Sign out from Firebase (Google)
+        const auth = getAuth();
+        await signOut(auth); 
+
+        // B. Clear Local Storage (Backend Token)
+        localStorage.removeItem("token");
+
+        // C. Clear React Context State (If applicable)
+        if (contextLogout) contextLogout();
+
+        // D. Redirect to Landing Page
+        navigate("/");
+    } catch (error) {
+        console.error("Error logging out:", error);
+    }
   };
 
   if (!user) {

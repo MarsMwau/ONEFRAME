@@ -37,11 +37,11 @@ export const AlbumsAndPhotosProvider = ({ children }) => {
         return;
       }
 
-      const userId = decodedToken.userId;
+      const userId = decodedToken.id || decodedToken.userId;
       console.log("Decoded User ID:", userId);
 
       try {
-        const responseAlbums = await fetch(`https://oneframe-api.onrender.com/api/albums?userId=${userId}`, {
+        const responseAlbums = await fetch(`http://localhost:8080/api/albums?userId=${userId}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ export const AlbumsAndPhotosProvider = ({ children }) => {
         console.log("Fetched Albums:", dataAlbums);
         setAlbums(dataAlbums);
 
-        const responsePhotos = await fetch(`https://oneframe-api.onrender.com/api/photos?userId=${userId}`, {
+        const responsePhotos = await fetch(`http://localhost:8080/api/photos?userId=${userId}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

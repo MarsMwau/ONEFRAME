@@ -36,7 +36,7 @@ const AlbumPage = () => {
         console.log("Decoded Token:", decodedToken);
 
         const response = await fetch(
-          `https://oneframe-api.onrender.com/api/albums/${id}`,
+          `http://localhost:8080/api/albums/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const AlbumPage = () => {
 
     try {
       const response = await fetch(
-        `https://oneframe-api.onrender.com/api/photos/${photoId}`,
+        `http://localhost:8080/api/photos/${photoId}`,
         {
           method: "DELETE",
           headers: {

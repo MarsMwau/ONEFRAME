@@ -37,7 +37,7 @@ const GalleryPhoto = () => {
 
         try {
           const response = await fetch(
-            `https://oneframe-api.onrender.com/api/photos/${id}`,
+            `http://localhost:8080/api/photos/${id}`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -55,7 +55,7 @@ const GalleryPhoto = () => {
 
           // Fetch all photos
           const allPhotosResponse = await fetch(
-            "https://oneframe-api.onrender.com/api/photos",
+            "http://localhost:8080/api/photos",
             {
               headers: {
                 "Content-Type": "application/json",

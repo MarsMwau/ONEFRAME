@@ -10,20 +10,41 @@ import { AlbumsAndPhotosProvider } from './Pages/shared/AlbumsAndPhotosContext';
 function App() {
   const location = useLocation();
 
-  const hideNavBarRoutes = ["/", "/login", "/signup"];
+  // --- FIX START: Add new routes here ---
+  // Pages where we DO NOT want to load user data (Albums/Photos)
+  const publicRoutes = [
+      "/", 
+      "/login", 
+      "/signup", 
+      "/forgot-password" // <--- Added
+  ];
+  
+  // Note: reset-password has a dynamic ID (/reset-password/xyz), so we check it specially
+  const isResetPage = location.pathname.startsWith("/reset-password");
+  const isPublicPage = publicRoutes.includes(location.pathname) || isResetPage;
+  // --- FIX END ---
+  
   const hideTopNavBarRoutes = ["/profile"];
 
-  const hideBottomNavBars = hideNavBarRoutes.includes(location.pathname);
-  const hideTopNavBar = hideTopNavBarRoutes.includes(location.pathname) || hideNavBarRoutes.includes(location.pathname);
+  const hideBottomNavBars = isPublicPage;
+  const hideTopNavBar = hideTopNavBarRoutes.includes(location.pathname) || isPublicPage;
 
   return (
     <div className="App">
       <AuthProvider>
-        <AlbumsAndPhotosProvider>
-          {!hideTopNavBar && <TopNavBar />}
-          <AppRoutes />
-          {!hideBottomNavBars && <BottomNavBar />}
-        </AlbumsAndPhotosProvider>
+        {isPublicPage ? (
+           // Case 1: Public Pages (Landing, Login, Signup, Forgot Pass)
+           <>
+             <AppRoutes />
+           </>
+        ) : (
+           // Case 2: Private Pages (Home, Profile, Albums)
+           <AlbumsAndPhotosProvider>
+             {!hideTopNavBar && <TopNavBar />}
+             <AppRoutes />
+             {!hideBottomNavBars && <BottomNavBar />}
+           </AlbumsAndPhotosProvider>
+        )}
       </AuthProvider>
     </div>
   );

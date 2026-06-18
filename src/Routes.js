@@ -3,6 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./components/LandingPage/LandingPage";
 import Login from "./components/auth/Login/Login";
 import SignUp from "./components/auth/SignUp/SignUp";
+// --- FIX START: Import new components ---
+import ForgotPassword from "./components/auth/ForgotPassword/ForgotPassword";
+import ResetPassword from "./components/auth/ForgotPassword/ResetPassword";
+// --- FIX END ---
 import PrivateRoute from "./components/context/PrivateRoute";
 import Home from "./Pages/Home/Home";
 import GalleryPhoto from "./Pages/Home/GalleryPhoto/GalleryPhoto";
@@ -19,6 +23,12 @@ const AppRoutes = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
+
+      {/* --- FIX START: Add new public routes --- */}
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
+      {/* --- FIX END --- */}
+
       <Route
         path="/home"
         element={
@@ -27,6 +37,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       />
+      {/* ... (rest of your existing private routes are fine) ... */}
       <Route
         path="/photo/:id"
         element={

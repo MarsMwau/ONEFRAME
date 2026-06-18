@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react"; 
+import { useNavigate, Link } from "react-router-dom"; // <--- Import Link
 import "./Login.css";
 import logo2 from "../../../assets/logo2.svg";
 import OAuth from "../OAuth/OAuth";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import logmage from "../../../assets/login-img.svg";
 import { useAuth } from "../../context/AuthContext";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [notification, setNotification] = useState(null);
+  const [banner, setBanner] = useState({ message: "", type: "" });
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -19,12 +21,10 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "https://oneframe-api.onrender.com/api/auth/login",
+        "http://localhost:8080/api/auth/login",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         }
       );
@@ -33,41 +33,33 @@ const Login = () => {
 
       if (response.ok) {
         console.log("Login successful", data);
-        setNotification({ type: "success", message: "Login successful!" });
+        setBanner({ type: "success", message: "Login successful! Redirecting..." });
 
-        // Store only the token part without the 'Bearer' prefix
         const tokenPart = data.token.split(" ")[1];
         localStorage.setItem("token", tokenPart);
-
-        // Call the login function from AuthContext
         login(tokenPart);
 
-        navigate("/home");
+        setTimeout(() => navigate("/home"), 1000);
       } else {
         console.error("Login failed", data);
-        setNotification({
-          type: "error",
-          message: "Login failed. Please try again later.",
+        setBanner({ 
+            type: "error", 
+            message: data.message || "Invalid credentials. Please try again." 
         });
       }
     } catch (error) {
       console.error("Error:", error);
-      setNotification({
-        type: "error",
-        message: "An error occurred. Please try again later.",
+      setBanner({ 
+          type: "error", 
+          message: "Unable to connect to server. Please check your internet." 
       });
     }
   };
 
-  useEffect(() => {
-    if (notification) {
-      const timer = setTimeout(() => {
-        setNotification(null);
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [notification]);
+  const handleInput = (setter) => (e) => {
+      setter(e.target.value);
+      if (banner.message) setBanner({ message: "", type: "" });
+  };
 
   const handleBackClick = () => {
     navigate("/");
@@ -87,14 +79,24 @@ const Login = () => {
           <div className="logo-container">
             <img src={logo2} alt="logo" />
           </div>
+
           <form className="form" onSubmit={handleSubmit}>
             <h3>Sign in with</h3>
             <OAuth />
+            
             <div className="separator">
               <div></div>
               <span>OR</span>
               <div></div>
             </div>
+
+            {banner.message && (
+                <div className={`status-banner ${banner.type}`}>
+                    {banner.type === "error" ? <ErrorOutlineIcon /> : <CheckCircleOutlineIcon />}
+                    <span>{banner.message}</span>
+                </div>
+            )}
+
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -104,7 +106,7 @@ const Login = () => {
                 id="email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleInput(setEmail)}
               />
             </div>
             <div className="form-group">
@@ -116,20 +118,24 @@ const Login = () => {
                 id="password"
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleInput(setPassword)}
               />
             </div>
+
+            {/* --- FORGOT PASSWORD LINK --- */}
+            <div className="forgot-pass-container">
+                <Link to="/forgot-password" className="forgot-pass-link">
+                    Forgot Password?
+                </Link>
+            </div>
+
             <div className="form-btn">
               <button type="submit" className="form-submit-btn">
                 Sign In
               </button>
             </div>
           </form>
-          {notification && (
-            <div className={`notification ${notification.type}`}>
-              {notification.message}
-            </div>
-          )}
+
           <p className="signup-link">
             Don't have an account?
             <a className="signup-link link" href="/signup">

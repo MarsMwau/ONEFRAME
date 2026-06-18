@@ -4,13 +4,20 @@ import "./SignUp.css";
 import signImage from "../../../assets/sign-up-image.svg";
 import logo2 from "../../../assets/logo2.svg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// Import an error icon for the modern look
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"; 
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
+    name: "",
     username: "",
     email: "",
     password: "",
   });
+  
+  // New state for server-side errors (Duplicate user, network fail, etc.)
+  const [serverError, setServerError] = useState(""); 
+  
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -24,8 +31,8 @@ const SignUp = () => {
   const alphanumericPattern = /^[a-zA-Z0-9]*$/;
 
   useEffect(() => {
-    const { username, email, password } = formData;
-    if (username && email && password && !emailError && !passwordError) {
+    const { name, username, email, password } = formData;
+    if (name && username && email && password && !emailError && !passwordError) {
       setIsButtonDisabled(false);
     } else {
       setIsButtonDisabled(true);
@@ -43,12 +50,10 @@ const SignUp = () => {
   const validatePassword = (password) => {
     if (!passwordSchema.test(password)) {
       setPasswordError(
-        "Password must be 8-14 characters long, include at least one lowercase letter, one uppercase letter, one number, and one special character."
+        "Password must be 8-14 chars, with uppercase, lowercase, number & special char."
       );
     } else if (forbiddenPattern.test(password)) {
-      setPasswordError(
-        "Password must not contain the words 'name', 'username', 'email', or 'password'."
-      );
+      setPasswordError("Password cannot contain 'name', 'username', 'email', or 'password'.");
     } else if (alphanumericPattern.test(password)) {
       setPasswordError("Password must include at least one special character.");
     } else {
@@ -58,6 +63,10 @@ const SignUp = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // Clear the server error as soon as the user starts typing to fix it
+    if (serverError) setServerError("");
+
     setFormData({
       ...formData,
       [name]: value,
@@ -72,31 +81,47 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (emailError || passwordError) {
-      return;
-    }
+    if (emailError || passwordError) return;
 
     try {
       const response = await fetch(
-        "https://oneframe-api.onrender.com/api/auth/register",
+        "http://localhost:8080/api/auth/register",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         }
       );
+
       if (response.ok) {
         const data = await response.json();
         console.log("User registered:", data);
         localStorage.setItem("successMessage", "Account created successfully!");
         navigate("/login");
       } else {
-        console.error("Registration failed:", response.statusText);
+        const errorData = await response.json();
+        console.error("Registration failed:", errorData);
+
+        // --- MODERN ERROR HANDLING LOGIC ---
+        // 1. Handle Duplicate Key (MongoDB Code 11000)
+        if (errorData.code === 11000 || (errorData.errorResponse && errorData.errorResponse.code === 11000)) {
+            const errStr = JSON.stringify(errorData);
+            if (errStr.includes("email")) {
+                setServerError("This email is already in use. Try signing in.");
+            } else if (errStr.includes("username")) {
+                setServerError("This username is already taken.");
+            } else {
+                setServerError("Account already exists with these details.");
+            }
+        } 
+        // 2. Handle Generic Backend Errors
+        else {
+            setServerError(errorData.message || "Something went wrong. Please try again.");
+        }
       }
     } catch (error) {
       console.error("Error:", error);
+      setServerError("Network error. Check your internet connection.");
     }
   };
 
@@ -119,11 +144,33 @@ const SignUp = () => {
           </div>
           <form className="form" onSubmit={handleSubmit}>
             <h3>Create an account</h3>
+            
+            {/* --- MODERN ERROR BANNER --- */}
+            {serverError && (
+                <div className="error-banner">
+                    <ErrorOutlineIcon className="error-icon" />
+                    <span>{serverError}</span>
+                </div>
+            )}
+
+            <div className="form-grp">
+              <label htmlFor="name">Full Name</label>
+              <input
+                required
+                placeholder="Enter your full name"
+                name="name"
+                id="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </div>
+
             <div className="form-grp">
               <label htmlFor="username">Username</label>
               <input
                 required
-                placeholder="Enter your name"
+                placeholder="Choose a username"
                 name="username"
                 id="username"
                 type="text"
