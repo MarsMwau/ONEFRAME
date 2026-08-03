@@ -22,18 +22,23 @@ const decodeToken = (token) => {
 export const AlbumsAndPhotosProvider = ({ children }) => {
   const [albums, setAlbums] = useState([]);
   const [photos, setPhotos] = useState([]);
+  // 1. Loading state initialized
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
     const fetchAlbumsAndPhotos = async () => {
+      setIsLoading(true); // Start loading
+      
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("Token not found");
+        setIsLoading(false);
         return;
       }
 
       const decodedToken = decodeToken(token);
       if (!decodedToken) {
         console.error("Invalid token");
+        setIsLoading(false);
         return;
       }
 
@@ -72,6 +77,9 @@ export const AlbumsAndPhotosProvider = ({ children }) => {
         setPhotos(dataPhotos);
       } catch (error) {
         console.error("Error fetching albums and photos:", error);
+      } finally {
+        // 2. Stop loading whether it succeeds or fails
+        setIsLoading(false);
       }
     };
 
@@ -79,7 +87,8 @@ export const AlbumsAndPhotosProvider = ({ children }) => {
   }, []);
 
   return (
-    <AlbumsAndPhotosContext.Provider value={{ albums, setAlbums, photos, setPhotos }}>
+    // 3. Highlighted Fix: Passed isLoading down so your pages can use it!
+    <AlbumsAndPhotosContext.Provider value={{ albums, setAlbums, photos, setPhotos, isLoading }}>
       {children}
     </AlbumsAndPhotosContext.Provider>
   );

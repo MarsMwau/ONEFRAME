@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.svg";
+import lightLogo from "../../assets/light-logo.svg";
+import darkLogo from "../../assets/dark-logo.svg";
 import album from "../../assets/album.svg";
 import "./LandingPage.css";
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  // routes for signing up and signing in
   const handleSignUp = () => {
     navigate("/signup");
   };
@@ -21,7 +21,9 @@ const LandingPage = () => {
       <div className="landing-container">
         <div className="left-container">
           <div className="logo">
-            <img src={logo} alt="logo" />
+            {/* HIGHLIGHTED FIX: Added both logos with their respective classes */}
+            <img src={lightLogo} alt="logo" className="logo-light" />
+            <img src={darkLogo} alt="logo" className="logo-dark" />
           </div>
           <div className="auth-container">
             <h3>Sign in or Create your account here</h3>

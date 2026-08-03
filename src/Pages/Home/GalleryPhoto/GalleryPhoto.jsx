@@ -115,6 +115,16 @@ const GalleryPhoto = () => {
     }
   };
 
+  // Highlighted Fix: The smart helper function added here
+  const getFullImageUrl = (url) => {
+    if (!url) return "";
+    if (url.startsWith("http")) return url;
+    if (url.startsWith("/uploads")) {
+      return `http://localhost:8080/api${url}`;
+    }
+    return `http://localhost:8080${url}`;
+  };
+
   return (
     <div
       className="imgOpen open"
@@ -123,7 +133,8 @@ const GalleryPhoto = () => {
     >
       {photo && (
         <>
-          <img src={photo.imageUrl} alt="img" />
+          {/* Highlighted Fix: Wrap the image URL */}
+          <img src={getFullImageUrl(photo.imageUrl)} alt="img" />
           <h3 className="img-title">{photo.title}</h3>
         </>
       )}

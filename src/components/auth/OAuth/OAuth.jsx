@@ -3,7 +3,7 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import "./OAuth.css"; // <--- Make sure this is imported!
+import "./OAuth.css"; 
 
 const OAuth = () => {
   const navigate = useNavigate();
@@ -75,10 +75,9 @@ const OAuth = () => {
     >
       {isLoading ? (
         <div className="loading-container">
-          {/* The Modern Spinner */}
           <div className="modern-spinner"></div>
-          {/* Optional Text */}
-          <span style={{color: "#555", fontWeight: "500"}}>Signing in...</span>
+          {/* HIGHLIGHTED FIX: Moved styles to CSS class */}
+          <span className="loading-text">Signing in...</span>
         </div>
       ) : (
         <>

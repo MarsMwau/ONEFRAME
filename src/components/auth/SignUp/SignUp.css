@@ -18,7 +18,7 @@
   left: 1px;
   background-color: transparent;
   border: none;
-  color: #28004d;
+  color: var(--text-color);
   width: 50px;
   height: 50px;
   padding: 0;
@@ -55,7 +55,7 @@
   font-size: 14px;
   font-family: "Red Hat Display", sans-serif;
   font-weight: 500;
-  color: #212121;
+  color: var(--text-color);
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
@@ -127,8 +127,9 @@
   padding: 12px 16px;
   border-radius: 6px;
   font-family: "Inria Serif", serif;
-  border: 1px solid #2a004d;
-  background-color: rgba(229, 208, 255, 0.39);
+  border: 1px solid var(--border-color); 
+  background-color: var(--surface-color); 
+  color: var(--text-color);
 }
 
 .sign-up-form .form-grp input::placeholder {
@@ -157,8 +158,8 @@
   font-family: inherit;
   overflow: hidden;
   z-index: 1;
+  background-color: var(--button-color); /* Uses your theme's primary button color */
   color: #fff;
-  background-color: #19002c;
   border: none;
   width: 45%;
   padding: 12px 14px;

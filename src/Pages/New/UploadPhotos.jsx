@@ -7,10 +7,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload"; // Optional: Looks nice
-
-// ... keep your decodeToken function here ...
-const decodeToken = (token) => { /* ... same as before ... */ };
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { toast } from "react-hot-toast";
 
 const UploadPhotos = () => {
   const { albumId } = useParams();
@@ -38,7 +36,7 @@ const UploadPhotos = () => {
     }
 
     if (!selectedFile) {
-        alert("Please select a file first!");
+        toast.error("Please select a file first!");
         return;
     }
 
@@ -49,11 +47,6 @@ const UploadPhotos = () => {
       formData.append("title", photoTitle);
       formData.append("albumId", albumId);
       
-      // Note: We don't strictly need to send userId if the backend extracts it from the Token
-      // But if your schema requires it in the body, add it:
-      // const decoded = decodeToken(token);
-      // formData.append("userId", decoded.userId);
-
       const response = await fetch("http://localhost:8080/api/photos", {
         method: "POST",
         headers: {
@@ -65,6 +58,9 @@ const UploadPhotos = () => {
       });
 
       if (!response.ok) {
+        const errorData = await response.json();
+        console.error("BACKEND REJECTION REASON:", errorData);
+        toast.error(`Upload Failed: ${errorData.message || JSON.stringify(errorData)}`);
         throw new Error("Upload failed");
       }
 

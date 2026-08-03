@@ -5,8 +5,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { toast } from 'react-hot-toast';
 
-const PhotoViewer = ({ selectedPhoto, setSelectedPhoto, onClose, photos, onDelete }) => {
+// HIGHLIGHTED FIX: Added getFullImageUrl to the props
+const PhotoViewer = ({ selectedPhoto, setSelectedPhoto, onClose, photos, onDelete, getFullImageUrl }) => {
   const { photoId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,6 +55,7 @@ const PhotoViewer = ({ selectedPhoto, setSelectedPhoto, onClose, photos, onDelet
     onDelete(selectedPhoto);
     setSelectedPhoto(null);
     navigate(`/album/${selectedPhoto.albumId}`);
+    toast.success("Photo deleted successfully.");
   };
 
   return (
@@ -63,7 +66,10 @@ const PhotoViewer = ({ selectedPhoto, setSelectedPhoto, onClose, photos, onDelet
       >
         <h3 className="photo-ttl">{selectedPhoto.title}</h3>
         <CloseIcon className="close-icon" onClick={onClose} />
-        <img src={selectedPhoto.imageUrl} alt={selectedPhoto.title} />
+        
+        {/* HIGHLIGHTED FIX: Wrapped the imageUrl inside the function so it loads from the backend! */}
+        <img src={getFullImageUrl(selectedPhoto.imageUrl)} alt={selectedPhoto.title} />
+        
         <ArrowBackIosIcon className="nav-icon prev-icon" onClick={handlePreviousPhoto} />
         <ArrowForwardIosIcon className="nav-icon next-icon" onClick={handleNextPhoto} />
         <DeleteIcon className="delete-icon" onClick={handleDeletePhoto} />

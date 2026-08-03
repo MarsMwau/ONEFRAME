@@ -13,20 +13,23 @@
 
 .bottom-container {
   width: 100%;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  /* Highlighted Fix: Use theme variable for dynamic shadow */
+  box-shadow: 0 -4px 15px var(--shadow-color);
+  background-color: var(--nav); 
 }
 
 .MuiBottomNavigation-root {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #5d4aa3;
+  background-color: var(--nav) !important; 
   width: 100%;
   height: auto;
   min-height: 65px;
   gap: 3.5rem;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  /* Slightly increased border radius for a more modern floating look */
+  border-top-left-radius: 20px; 
+  border-top-right-radius: 20px;
 }
 
 .MuiBottomNavigationAction-root {
@@ -37,13 +40,15 @@
 
 .MuiBottomNavigationAction-label {
   font-weight: 600;
-  font-family: "Red Hat Display";
-  transition: font-size 0.3s ease;
+  font-family: "Red Hat Display", system-ui, sans-serif;
+  transition: font-size 0.3s ease, color 0.3s ease;
 }
 
 button.MuiBottomNavigationAction-root {
-  color: var(--text-color);
-  background-color: aliceblue;
+  /* Highlighted Fix: Respects dark/light mode text */
+  color: var(--text-color); 
+  /* Highlighted Fix: Removed 'aliceblue' to get rid of the white circles! */
+  background-color: transparent; 
   font-weight: 700;
   display: flex;
   justify-content: center;
@@ -55,6 +60,7 @@ button.MuiBottomNavigationAction-root {
   height: 60px;
   padding: 0.1em;
   overflow: hidden;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .MuiBottomNavigationAction-root .MuiSvgIcon-root {
@@ -63,25 +69,35 @@ button.MuiBottomNavigationAction-root {
   font-size: 1.8em;
 }
 
+/* Highlighted Fix: Give the active icon the primary brand color so you know what page you are on */
 .Mui-selected {
   transform: translateY(-0.35rem);
   font-weight: 700;
   font-size: 1.4em;
+  color: var(--primary-color) !important; 
   gap: 1px;
 }
 
 .MuiBottomNavigationAction-root:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+  /* Highlighted Fix: Uses dynamic shadow variable for hover instead of hardcoded rgba */
+  background-color: var(--shadow-color); 
   transform: translateY(-0.15rem);
   font-weight: 700;
   font-size: 1.4em;
 }
 
+/* Highlighted Fix: Makes the "New" (+) button adapt dynamically and pop out */
 .NewButton {
-  background-color: #000000 !important;
-  color: rgb(255, 255, 255) !important;
+  background-color: var(--button-color) !important;
+  color: var(--background-color) !important; /* Inverts color for contrast */
+  box-shadow: 0 4px 10px var(--shadow-color);
 }
 
+.NewButton.Mui-selected {
+  color: var(--background-color) !important;
+}
+
+/* --- RESPONSIVE STYLES --- */
 @media (max-width: 660px) {
   .MuiBottomNavigation-root {
     gap: 2rem;

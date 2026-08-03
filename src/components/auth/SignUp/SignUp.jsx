@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import signImage from "../../../assets/sign-up-image.svg";
-import logo2 from "../../../assets/logo2.svg";
+import lightLogo from "../../../assets/light-logo.svg"; 
+import darkLogo from "../../../assets/dark-logo.svg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-// Import an error icon for the modern look
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"; 
 
 const SignUp = () => {
@@ -140,7 +140,8 @@ const SignUp = () => {
             <ArrowBackIcon />
           </button>
           <div className="signup-logo">
-            <img src={logo2} alt="Logo" />
+            <img src={lightLogo} alt="Logo" className="logo-light" />
+            <img src={darkLogo} alt="Logo" className="logo-dark" />
           </div>
           <form className="form" onSubmit={handleSubmit}>
             <h3>Create an account</h3>

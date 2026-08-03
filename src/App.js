@@ -6,46 +6,67 @@ import BottomNavBar from './components/Layout/BottomNavBar/BottomNavBar';
 import AppRoutes from './Routes';
 import { AuthProvider } from './components/context/AuthContext';
 import { AlbumsAndPhotosProvider } from './Pages/shared/AlbumsAndPhotosContext';
+import { ThemeProvider } from './Pages/shared/ThemeContext'; 
+import signatureFlowers from './assets/flowers-image.svg';
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   const location = useLocation();
 
-  // --- FIX START: Add new routes here ---
-  // Pages where we DO NOT want to load user data (Albums/Photos)
   const publicRoutes = [
       "/", 
       "/login", 
       "/signup", 
-      "/forgot-password" // <--- Added
+      "/forgot-password" 
   ];
-  
-  // Note: reset-password has a dynamic ID (/reset-password/xyz), so we check it specially
   const isResetPage = location.pathname.startsWith("/reset-password");
   const isPublicPage = publicRoutes.includes(location.pathname) || isResetPage;
-  // --- FIX END ---
-  
   const hideTopNavBarRoutes = ["/profile"];
-
   const hideBottomNavBars = isPublicPage;
   const hideTopNavBar = hideTopNavBarRoutes.includes(location.pathname) || isPublicPage;
 
   return (
     <div className="App">
-      <AuthProvider>
-        {isPublicPage ? (
-           // Case 1: Public Pages (Landing, Login, Signup, Forgot Pass)
-           <>
+      <ThemeProvider>
+        <AuthProvider>
+          {isPublicPage ? (
              <AppRoutes />
-           </>
-        ) : (
-           // Case 2: Private Pages (Home, Profile, Albums)
-           <AlbumsAndPhotosProvider>
-             {!hideTopNavBar && <TopNavBar />}
-             <AppRoutes />
-             {!hideBottomNavBars && <BottomNavBar />}
-           </AlbumsAndPhotosProvider>
-        )}
-      </AuthProvider>
+          ) : (
+             <AlbumsAndPhotosProvider>
+               {!hideTopNavBar && <TopNavBar />}
+               <AppRoutes />
+               {!hideBottomNavBars && <BottomNavBar />}
+             </AlbumsAndPhotosProvider>
+          )}
+        </AuthProvider>
+      </ThemeProvider>
+
+      <img 
+        src={signatureFlowers} 
+        alt="Floral Signature" 
+        className="global-signature" 
+      />
+
+      <Toaster 
+      position="bottom-center"
+      toastOptions={{
+        style: {
+          borderRadius: '30px',
+          background: 'var(--surface-color)',
+          color: 'var(--text-color)',
+          boxShadow: '0 4px 15px var(--shadow-color)',
+          padding: '12px 24px',
+          fontWeight: 600,
+        },
+        success: {
+          iconTheme: {
+            primary: '#b09ce8',
+            secondary: '#ffffff',
+          },
+        },
+      }}
+    />
+      
     </div>
   );
 }

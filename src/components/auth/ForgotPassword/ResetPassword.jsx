@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../Login/Login.css"; // Reuse Login styles
-import logo2 from "../../../assets/logo2.svg";
+import logo2 from "../../../assets/light-logo.svg"; // Adjust the path as necessary
 
 const ResetPassword = () => {
   const { token } = useParams(); // Get the token from the URL

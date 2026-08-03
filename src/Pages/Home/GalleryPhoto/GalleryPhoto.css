@@ -31,9 +31,8 @@
 .imgOpen .img-title {
   position: absolute;
   top: 5px;
-  color: rgb(16, 0, 35);
+  color: var(--text-color);
   font-weight: 900;
-  background-color: rgba(255, 255, 255, 0.112);
   padding: 4px 8px;
   margin: 0;
   font-size: 1.4em;
@@ -46,22 +45,18 @@
   font-weight: 800;
   left: 0;
   top: 0;
-  color: rgb(0, 0, 0);
+  color: var(--text-color);
   cursor: pointer;
   border-radius: 50%;
 }
 
-.imgOpen .close-icon:hover {
-  color: black;
-  background-color: white;
-}
 
 .prev-icon,
 .next-icon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  color: rgb(0, 0, 0);
+  color: var(--text-color);
   cursor: pointer;
   font-size: 5em;
   font-weight: 900;

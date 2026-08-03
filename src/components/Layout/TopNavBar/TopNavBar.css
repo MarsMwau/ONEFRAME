@@ -19,6 +19,13 @@
   width: 92vw;
 }
 
+/* Added a pointer cursor so users know the logo is clickable! */
+.top-logo {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
 .theme .icon {
   font-size: 2.5em;
   color: var(--button-color);
@@ -28,14 +35,77 @@
   transform: translateY(-100%);
 }
 
+/* --- LOGO THEME SWITCHING --- */
+
+/* 1. Base sizes for BOTH logos so they match perfectly */
+.top-logo img {
+  height: 90px; /* Adjust this number to make the logo bigger or smaller! */
+  width: auto;
+  object-fit: contain;
+}
+
+/* 2. Default (Light Mode): Show Light Logo, Hide Dark Logo */
+.logo-light {
+  display: block;
+}
+
+.logo-dark {
+  display: none;
+}
+
+/* 3. Dark Mode Active: Hide Light Logo, Show Dark Logo */
+[data-theme='dark'] .logo-light {
+  display: none;
+}
+
+[data-theme='dark'] .logo-dark {
+  display: block;
+}
+
+/* --- NEW: NAVBAR PROFILE ICON --- */
+.top-profile {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  /* Creates a subtle purple-toned ring around the avatar */
+  padding: 3px;
+  background: linear-gradient(135deg, #b09ce8, var(--surface-color));
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.top-profile:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.nav-avatar {
+  width: 45px !important;
+  height: 45px !important;
+  /* Adds a gap between the image and the gradient ring */
+  border: 2px solid var(--nav) !important;
+}
+
+/* Adjust avatar size for mobile */
+@media (max-width: 768px) {
+  .nav-avatar {
+    width: 38px !important;
+    height: 38px !important;
+  }
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
 @media (max-width: 768px) {
   .top-container {
     width: 95vw;
   }
 
+  /* Fix: Use height to scale SVGs down smoothly on tablets */
   .top-logo img {
-    width: 70%;
-    height: auto;
+    height: 55px; 
+    width: auto;
   }
 
   .theme .icon {
@@ -49,9 +119,10 @@
     padding: 0;
   }
 
+  /* Fix: Use height to scale SVGs down smoothly on phones */
   .top-logo img {
-    width: 65%;
-    height: auto;
+    height: 48px; 
+    width: auto;
   }
 
   .theme .icon {

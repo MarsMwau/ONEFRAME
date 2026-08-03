@@ -1,9 +1,65 @@
+/* --- 1. LIGHT MODE (Your original colors + surface vars) --- */
 :root {
   --primary-color: #3481dd;
   --secondary-color: #9682dc;
-  --nav: #e9e3ff;
+  --nav: #e3dcff;
   --background-color: #fefdff;
   --text-color: #100b1b;
   --text-color2: #ffffff;
   --button-color: #22003b;
+  --surface-color: #ffffff;
+  --border-color: #eaeaea;
+  --shadow-color: rgba(0, 8, 72, 0.08); 
+}
+
+/* --- 2. DARK MODE (Inverted brand colors) --- */
+[data-theme='dark'] {
+  --primary-color: #6a9ced; /* Brighter blue for visibility */
+  --secondary-color: #b3a5ea; 
+  --background-color: #181427; /* Deep, rich black with a hint of purple */
+  --nav: #1b1530; /* Slightly elevated dark purple for nav bars */
+  --surface-color: #1e182d; /* For cards and dialogs */
+  
+  /* Text must flip to light colors */
+  --text-color: #ffffff; /* Forces primary text to be white */
+  --text-color2: #a39eb5; /* Muted lavender for secondary text */
+  
+  --button-color: #9682dc;
+  --border-color: #2a2238;
+  --shadow-color: rgba(0, 0, 0, 0.8);
+}
+/* --- 3. APPLY GLOBALLY --- */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- GLOBAL SIGNATURE --- */
+.global-signature {
+  position: fixed;
+  bottom: -15px; /* Tweak these numbers to position it perfectly */
+  left: -15px;
+  width: 180px; /* Adjust based on your asset size */
+  z-index: 9999; /* Keeps it on top of everything */
+  
+  /* THIS IS THE SECRET SAUCE: Allows clicks to pass right through the image! */
+  pointer-events: none; 
+  
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+/* Optional: Make it slightly dimmer in dark mode so it isn't blinding */
+[data-theme='dark'] .global-signature {
+  opacity: 0.6; 
+}
+
+/* Shrink signature on mobile */
+@media (max-width: 768px) {
+  .global-signature {
+    width: 120px;
+    bottom: -10px;
+    left: -10px;
+  }
 }
