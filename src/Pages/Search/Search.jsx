@@ -8,7 +8,6 @@ const Search = () => {
   const { albums, photos } = useContext(AlbumsAndPhotosContext);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // --- HIGHLIGHTED FIX: Filter AND sort albums newest to oldest ---
   const filteredAlbums = albums
     .filter((album) =>
       album.title.toLowerCase().includes(searchQuery.toLowerCase()),
